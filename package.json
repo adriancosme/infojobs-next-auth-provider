@@ -1,6 +1,6 @@
 {
   "name": "infojobs-next-auth-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Infojobs provider for next-auth",
   "main": "index.js",
   "scripts": {
