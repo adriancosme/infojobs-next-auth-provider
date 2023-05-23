@@ -13,50 +13,50 @@ interface AdditionalConfig {
     redirect_uri: string;
 }
 
-export const AUTHORIZATION_URL = "https://www.infojobs.net/api/oauth/user-authorize/index.xhtml"
+export const AUTHORIZATION_URL = "https://www.infojobs.net/api/oauth/user-authorize/index.xhtml";
 export const TOKEN_URL = "https://www.infojobs.net/oauth/authorize";
 export const USER_INFO_URL = "https://api.infojobs.net/api/6/candidate";
 export default function InfojobsProvider<P extends InfojobsCandidate>(options: OAuthUserConfig<P> & AdditionalConfig): OAuthConfig<P> {
     return {
-        id: 'infojobs',
-        name: 'Infojobs',
-        type: 'oauth',
-        version: '2.0',
-        checks: ['none'],
+        id: "infojobs",
+        name: "Infojobs",
+        type: "oauth",
+        version: "2.0",
+        checks: ["none"],
         authorization: {
             url: AUTHORIZATION_URL,
             params: {
                 scope: options.infojobs_scopes,
                 redirect_uri: options.redirect_uri,
-                response_type: "code",
-            },
+                response_type: "code"
+            }
         },
         token: {
             url: TOKEN_URL,
             async request({ params }) {
-                const tokenUrl = new URL(TOKEN_URL ?? '');
-                tokenUrl.searchParams.append('grant_type', 'authorization_code');
-                tokenUrl.searchParams.append('code', params.code ?? '');
-                tokenUrl.searchParams.append('redirect_uri', `${options.redirect_uri}` ?? '');
-                tokenUrl.searchParams.append('client_id', options.clientId ?? '');
-                tokenUrl.searchParams.append('client_secret', options.clientSecret ?? '');
+                const tokenUrl = new URL(TOKEN_URL ?? "");
+                tokenUrl.searchParams.append("grant_type", "authorization_code");
+                tokenUrl.searchParams.append("code", params.code ?? "");
+                tokenUrl.searchParams.append("redirect_uri", `${options.redirect_uri}` ?? "");
+                tokenUrl.searchParams.append("client_id", options.clientId ?? "");
+                tokenUrl.searchParams.append("client_secret", options.clientSecret ?? "");
                 const response = await fetch(tokenUrl.toString(), {
-                    method: 'POST',
-                })
+                    method: "POST"
+                });
                 const tokens = await response.json();
                 return {
                     tokens
-                }
+                };
             }
         },
         userinfo: {
             async request({ tokens }) {
-                const basicToken = `Basic ${Buffer.from(`${options.clientId}:${options.clientSecret}`).toString('base64')}`;
+                const basicToken = `Basic ${Buffer.from(`${options.clientId}:${options.clientSecret}`).toString("base64")}`;
                 const bearerToken = `Bearer ${tokens.access_token}`;
                 const response = await fetch(USER_INFO_URL, {
                     headers: {
-                        Authorization: `${basicToken},${bearerToken}`,
-                    },
+                        Authorization: `${basicToken},${bearerToken}`
+                    }
                 });
                 const profile = await response.json();
                 return {
@@ -64,8 +64,8 @@ export default function InfojobsProvider<P extends InfojobsCandidate>(options: O
                     email: profile.email,
                     image: profile.photo,
                     name: profile.name,
-                    sub: profile.id,
-                }
+                    sub: profile.id
+                };
             }
         },
         profile(profile) {
@@ -73,9 +73,9 @@ export default function InfojobsProvider<P extends InfojobsCandidate>(options: O
                 id: profile.id.toString(),
                 name: profile.name,
                 email: profile.email,
-                image: profile.photo,
-            }
+                image: profile.photo
+            };
         },
         options
-    }
+    };
 }
