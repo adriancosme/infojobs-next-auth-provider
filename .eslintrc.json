@@ -1,0 +1,6 @@
+{
+    "extends": "@sapphire",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    }
+}

@@ -13,8 +13,9 @@ interface AdditionalConfig {
     redirect_uri: string;
 }
 
-const AUTHORIZATION_URL = "https://www.infojobs.net/api/oauth/user-authorize/index.xhtml"
-const TOKEN_URL = "https://www.infojobs.net/oauth/authorize";
+export const AUTHORIZATION_URL = "https://www.infojobs.net/api/oauth/user-authorize/index.xhtml"
+export const TOKEN_URL = "https://www.infojobs.net/oauth/authorize";
+export const USER_INFO_URL = "https://api.infojobs.net/api/6/candidate";
 export default function InfojobsProvider<P extends InfojobsCandidate>(options: OAuthUserConfig<P> & AdditionalConfig): OAuthConfig<P> {
     return {
         id: 'infojobs',
@@ -52,7 +53,7 @@ export default function InfojobsProvider<P extends InfojobsCandidate>(options: O
             async request({ tokens }) {
                 const basicToken = `Basic ${Buffer.from(`${options.clientId}:${options.clientSecret}`).toString('base64')}`;
                 const bearerToken = `Bearer ${tokens.access_token}`;
-                const response = await fetch("https://api.infojobs.net/api/6/candidate", {
+                const response = await fetch(USER_INFO_URL, {
                     headers: {
                         Authorization: `${basicToken},${bearerToken}`,
                     },
