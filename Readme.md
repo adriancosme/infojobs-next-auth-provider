@@ -23,7 +23,7 @@ export default NextAuth({
     InfojobsProvider({
       clientId: process.env.INFOJOBS_CLIENT_ID ?? "",
       clientSecret: process.env.INFOJOBS_SECRET ?? "",
-      redirect_uri: "https://domain.com/api/callback",
+      redirect_uri: "https://domain.com/api/auth/callback/infojobs",
       infojobs_scopes:
         "CANDIDATE_PROFILE_WITH_EMAIL,CV,CANDIDATE_READ_CURRICULUM_EXPERIENCE",
     }),
