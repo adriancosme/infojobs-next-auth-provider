@@ -76,6 +76,14 @@ export default function InfojobsProvider<P extends InfojobsCandidate>(options: O
                 image: profile.photo
             };
         },
+        style: {
+            bg: "#fff",
+            logo: "https://media.infojobs.net/portales/ij/appgrade/svgs/ij-logo_reduced.svg",
+            bgDark: "#1D2635",
+            logoDark: "https://media.infojobs.net/portales/ij/appgrade/svgs/ij-logo_reduced.svg",
+            text: "#000",
+            textDark: "#fff"
+        },
         options
     };
 }
